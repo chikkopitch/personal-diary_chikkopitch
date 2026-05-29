@@ -7,19 +7,26 @@
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
-  <header>
-    <h1>Личный дневник</h1>
-    <nav>
-      <a href="/">Главная</a> | <a href="/add">Добавить запись</a>
-    </nav>
-    <hr>
-  </header>
-  <main>
-    {% block content %}{% endblock %}
-  </main>
-  <footer>
-    <hr>
-    <p>© Личный дневник</p>
-  </footer>
+  <div class="container">
+    <header>
+      <h1>Личный дневник</h1>
+      <nav class="main-nav">
+        <a href="/">Главная</a>
+        <a href="/add">Новая запись</a>
+        <form class="search-form" method="get" action="/search">
+          <input type="text" name="q" placeholder="Поиск...">
+          <button type="submit">Поиск</button>
+        </form>
+      </nav>
+      <hr>
+    </header>
+    <main>
+      {% block content %}{% endblock %}
+    </main>
+    <footer>
+      <hr>
+      <p>Автор: Не указан</p>
+    </footer>
+  </div>
 </body>
 </html>

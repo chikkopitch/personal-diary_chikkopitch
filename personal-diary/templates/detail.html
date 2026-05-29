@@ -1,7 +1,20 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>{{ entry.title }}</h2>
-  <p>{{ entry.content }}</p>
-  <p><a href="/">Назад</a></p>
+  <article class="card">
+    <h2>{{ entry.title }}</h2>
+    {% if entry.date %}
+      <div class="meta">{{ entry.date }}</div>
+    {% endif %}
+    <div class="entry-body">
+      <p>{{ entry.content }}</p>
+    </div>
+    <div class="actions">
+      <a class="btn" href="/edit/{{ idx }}">Редактировать</a>
+      <form action="/delete/{{ idx }}" method="post" style="display:inline">
+        <button class="btn danger" type="submit">Удалить</button>
+      </form>
+      <a class="btn" href="/">На главную</a>
+    </div>
+  </article>
 {% endblock %}

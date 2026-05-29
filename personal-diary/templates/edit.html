@@ -1,10 +1,21 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Редактировать запись</h2>
-  <form method="post">
-    <p><label>Заголовок:<br><input name="title" value="{{ entry.title }}"></label></p>
-    <p><label>Содержимое:<br><textarea name="content" rows="6">{{ entry.content }}</textarea></label></p>
-    <p><button type="submit">Сохранить</button></p>
+  <h2>Редактирование записи</h2>
+  <form method="post" class="entry-form">
+    <p>
+      <label>Заголовок:<br>
+        <input type="text" name="title" value="{{ entry.title }}" required>
+      </label>
+    </p>
+    <p>
+      <label>Текст:<br>
+        <textarea name="content" rows="10" required>{{ entry.content }}</textarea>
+      </label>
+    </p>
+    <p>
+      <button class="btn" type="submit">Сохранить</button>
+      <a class="btn" href="/">Отмена</a>
+    </p>
   </form>
 {% endblock %}

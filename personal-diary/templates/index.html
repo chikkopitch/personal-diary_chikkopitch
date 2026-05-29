@@ -1,20 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <h2>Записи</h2>
+  <h2>Мои записи</h2>
   {% if entries %}
-    <ul>
+    <div class="entries-list">
       {% for entry in entries %}
-        <li>
-          <a href="/entry/{{ loop.index0 }}">{{ entry.title }}</a>
-          - <a href="/edit/{{ loop.index0 }}">Редактировать</a>
-          <form action="/delete/{{ loop.index0 }}" method="post" style="display:inline">
-            <button type="submit">Удалить</button>
-          </form>
-        </li>
+        <div class="card">
+          <h3>{{ entry.title }}</h3>
+          {% if entry.date %}
+            <div class="meta">{{ entry.date }}</div>
+          {% endif %}
+          <div class="actions">
+            <a class="btn" href="/entry/{{ loop.index0 }}">Читать</a>
+            <a class="btn" href="/edit/{{ loop.index0 }}">Редактировать</a>
+            <form action="/delete/{{ loop.index0 }}" method="post" style="display:inline">
+              <button class="btn danger" type="submit">Удалить</button>
+            </form>
+          </div>
+        </div>
       {% endfor %}
-    </ul>
+    </div>
   {% else %}
-    <p>Записей пока нет.</p>
+    <p>Пока нет записей. Создайте первую!</p>
   {% endif %}
 {% endblock %}
