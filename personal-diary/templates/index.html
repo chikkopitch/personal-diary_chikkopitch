@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Записи</h2>
+  {% if entries %}
+    <ul>
+      {% for entry in entries %}
+        <li>
+          <a href="/entry/{{ loop.index0 }}">{{ entry.title }}</a>
+          - <a href="/edit/{{ loop.index0 }}">Редактировать</a>
+          <form action="/delete/{{ loop.index0 }}" method="post" style="display:inline">
+            <button type="submit">Удалить</button>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Записей пока нет.</p>
+  {% endif %}
+{% endblock %}
