@@ -2,18 +2,22 @@
 
 {% block content %}
   <h2>Мои записи</h2>
-  {% if entries %}
-  <form action="/search" method="get" class="search-form">
-    <input type="text" name="q" placeholder="Поиск по задачам..." value="{{ search_query or '' }}">
-    <button type="submit">Найти</button>
-</form>
+  
+  {% if entries or search_query %}
+    <form action="/search" method="get" class="search-form">
+      <input type="text" name="q" placeholder="Поиск по записям..." value="{{ search_query or '' }}">
+      <button type="submit">Найти</button>
+    </form>
 
-<p>
-    <a href="/sort/date">По дате (новые)</a> |
-    <a href="/sort/status">По статусу</a> |
-    <a href="/sort/priority">По приоритету</a> |
-    <a href="/sort/alpha">По алфавиту</a>
-</p>
+    <p>
+      <a href="/sort/date">По дате (новые)</a> |
+      <a href="/sort/status">По статусу</a> |
+      <a href="/sort/priority">По приоритету</a> |
+      <a href="/sort/alpha">По алфавиту</a>
+    </p>
+  {% endif %}
+
+  {% if entries %}
     <div class="entries-list">
       {% for entry in entries %}
         <div class="card">
@@ -22,9 +26,9 @@
             <div class="meta">{{ entry.date }}</div>
           {% endif %}
           <div class="actions">
-            <a class="btn" href="/entry/{{ loop.index0 }}">Читать</a>
-            <a class="btn" href="/edit/{{ loop.index0 }}">Редактировать</a>
-            <form action="/delete/{{ loop.index0 }}" method="post" style="display:inline">
+            <a class="btn" href="/entry/{{ entry.id }}">Читать</a>
+            <a class="btn" href="/edit/{{ entry.id }}">Редактировать</a>
+            <form action="/delete/{{ entry.id }}" method="post" style="display:inline">
               <button class="btn danger" type="submit">Удалить</button>
             </form>
           </div>
@@ -32,6 +36,6 @@
       {% endfor %}
     </div>
   {% else %}
-    <p>Пока нет записей. Создайте первую!</p>
+    <p>Пока нет записей (или ничего не найдено). Создайте первую!</p>
   {% endif %}
-{% endblock %}
+{% endblock %}g

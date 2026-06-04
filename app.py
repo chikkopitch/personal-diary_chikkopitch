@@ -21,6 +21,9 @@ def save_entries(entries):
 @app.route('/')
 def index():
     entries = load_entries()
+    # Присваиваем каждой записи её оригинальный номер из JSON
+    for i, entry in enumerate(entries):
+        entry['id'] = i
     return render_template('index.html', entries=entries)
 
 
@@ -39,6 +42,7 @@ def add():
         entries = load_entries()
         title = request.form.get('title')
         content = request.form.get('content')
+        # Пока дата не добавляется из формы, но если добавишь, сортировка по дате заработает
         entries.append({'title': title, 'content': content})
         save_entries(entries)
         return redirect(url_for('index'))
@@ -73,43 +77,56 @@ def delete(idx):
 @app.route('/search')
 def search():
     query = request.args.get('q', '').strip().lower()
+    entries = load_entries()
+    
+    # Присваиваем оригинальные ID перед фильтрацией
+    for i, entry in enumerate(entries):
+        entry['id'] = i
+        
     if query:
-        filtered_tasks = [task for task in tasks if query in task['text'].lower()]
+        # Ищем совпадения и в заголовке, и в тексте дневника
+        filtered_entries = [e for e in entries if query in e.get('title', '').lower() or query in e.get('content', '').lower()]
     else:
-        filtered_tasks = tasks
-    return render_template('index.html', tasks=filtered_tasks, search_query=query)
+        filtered_entries = entries
+        
+    return render_template('index.html', entries=filtered_entries, search_query=query)
 
 # ==========================================
 # ПРАКТИЧЕСКАЯ РАБОТА №8: Сортировка
 # ==========================================
 
-# Сортировка по дате (новые сверху)
+# Сортировка по дате
 @app.route('/sort/date')
 def sort_by_date(): 
-    sorted_tasks = sorted(tasks, key=lambda t: t.get('date', ''), reverse=True)
-    return render_template('index.html', tasks=sorted_tasks)
+    entries = load_entries()
+    for i, entry in enumerate(entries): entry['id'] = i
+    sorted_entries = sorted(entries, key=lambda e: e.get('date', ''), reverse=True)
+    return render_template('index.html', entries=sorted_entries)
 
-# Сортировка по статусу (сначала активные)
+# Сортировка по статусу (в дневнике этого поля нет, но код не упадет)
 @app.route('/sort/status')
 def sort_by_status():
-    sorted_tasks = sorted(tasks, key=lambda t: t.get('done', False))
-    return render_template('index.html', tasks=sorted_tasks)
+    entries = load_entries()
+    for i, entry in enumerate(entries): entry['id'] = i
+    sorted_entries = sorted(entries, key=lambda e: e.get('done', False))
+    return render_template('index.html', entries=sorted_entries)
 
-# Сортировка по приоритету (высокий → средний → низкий)
+# Сортировка по приоритету (в дневнике этого поля нет, но код не упадет)
 @app.route('/sort/priority')
 def sort_by_priority():
     priority_order = {'высокий': 1, 'средний': 2, 'низкий': 3}
-    sorted_tasks = sorted(
-        tasks,
-        key=lambda t: priority_order.get(t.get('priority', 'средний'), 2)
-    )
-    return render_template('index.html', tasks=sorted_tasks)
+    entries = load_entries()
+    for i, entry in enumerate(entries): entry['id'] = i
+    sorted_entries = sorted(entries, key=lambda e: priority_order.get(e.get('priority', 'средний'), 2))
+    return render_template('index.html', entries=sorted_entries)
 
-# Сортировка по алфавиту (А → Я)
+# Сортировка по алфавиту (по заголовку записи)
 @app.route('/sort/alpha')
 def sort_by_alpha():
-    sorted_tasks = sorted(tasks, key=lambda t: t.get('text', '').lower())
-    return render_template('index.html', tasks=sorted_tasks)
+    entries = load_entries()
+    for i, entry in enumerate(entries): entry['id'] = i
+    sorted_entries = sorted(entries, key=lambda e: e.get('title', '').lower())
+    return render_template('index.html', entries=sorted_entries)
 
 if __name__ == '__main__':
     app.run(debug=True)
