@@ -67,6 +67,49 @@ def delete(idx):
         return redirect(url_for('index'))
     return "Not found", 404
 
+# ==========================================
+# ПРАКТИЧЕСКАЯ РАБОТА №7: Поиск
+# ==========================================
+@app.route('/search')
+def search():
+    query = request.args.get('q', '').strip().lower()
+    if query:
+        filtered_tasks = [task for task in tasks if query in task['text'].lower()]
+    else:
+        filtered_tasks = tasks
+    return render_template('index.html', tasks=filtered_tasks, search_query=query)
+
+# ==========================================
+# ПРАКТИЧЕСКАЯ РАБОТА №8: Сортировка
+# ==========================================
+
+# Сортировка по дате (новые сверху)
+@app.route('/sort/date')
+def sort_by_date(): 
+    sorted_tasks = sorted(tasks, key=lambda t: t.get('date', ''), reverse=True)
+    return render_template('index.html', tasks=sorted_tasks)
+
+# Сортировка по статусу (сначала активные)
+@app.route('/sort/status')
+def sort_by_status():
+    sorted_tasks = sorted(tasks, key=lambda t: t.get('done', False))
+    return render_template('index.html', tasks=sorted_tasks)
+
+# Сортировка по приоритету (высокий → средний → низкий)
+@app.route('/sort/priority')
+def sort_by_priority():
+    priority_order = {'высокий': 1, 'средний': 2, 'низкий': 3}
+    sorted_tasks = sorted(
+        tasks,
+        key=lambda t: priority_order.get(t.get('priority', 'средний'), 2)
+    )
+    return render_template('index.html', tasks=sorted_tasks)
+
+# Сортировка по алфавиту (А → Я)
+@app.route('/sort/alpha')
+def sort_by_alpha():
+    sorted_tasks = sorted(tasks, key=lambda t: t.get('text', '').lower())
+    return render_template('index.html', tasks=sorted_tasks)
 
 if __name__ == '__main__':
     app.run(debug=True)

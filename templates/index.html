@@ -3,6 +3,17 @@
 {% block content %}
   <h2>Мои записи</h2>
   {% if entries %}
+  <form action="/search" method="get" class="search-form">
+    <input type="text" name="q" placeholder="Поиск по задачам..." value="{{ search_query or '' }}">
+    <button type="submit">Найти</button>
+</form>
+
+<p>
+    <a href="/sort/date">По дате (новые)</a> |
+    <a href="/sort/status">По статусу</a> |
+    <a href="/sort/priority">По приоритету</a> |
+    <a href="/sort/alpha">По алфавиту</a>
+</p>
     <div class="entries-list">
       {% for entry in entries %}
         <div class="card">
