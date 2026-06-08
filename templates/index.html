@@ -1,41 +1,36 @@
-{% extends 'base.html' %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Гостевая книга</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Гостевая книга</h1>
 
-{% block content %}
-  <h2>Мои записи</h2>
-  
-  {% if entries or search_query %}
-    <form action="/search" method="get" class="search-form">
-      <input type="text" name="q" placeholder="Поиск по записям..." value="{{ search_query or '' }}">
-      <button type="submit">Найти</button>
-    </form>
+        <h2>Сообщения</h2>
 
-    <p>
-      <a href="/sort/date">По дате (новые)</a> |
-      <a href="/sort/status">По статусу</a> |
-      <a href="/sort/priority">По приоритету</a> |
-      <a href="/sort/alpha">По алфавиту</a>
-    </p>
-  {% endif %}
+        {% if messages %}
+            {% for msg in messages %}
+                <div class="message">
+                    <strong>{{ msg.name }}</strong> <small>({{ msg.created_at }})</small>
+                    <p>{{ msg.message }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Пока нет сообщений. Будьте первым!</p>
+        {% endif %}
 
-  {% if entries %}
-    <div class="entries-list">
-      {% for entry in entries %}
-        <div class="card">
-          <h3>{{ entry.title }}</h3>
-          {% if entry.date %}
-            <div class="meta">{{ entry.date }}</div>
-          {% endif %}
-          <div class="actions">
-            <a class="btn" href="/entry/{{ entry.id }}">Читать</a>
-            <a class="btn" href="/edit/{{ entry.id }}">Редактировать</a>
-            <form action="/delete/{{ entry.id }}" method="post" style="display:inline">
-              <button class="btn danger" type="submit">Удалить</button>
+        <div class="add-form">
+            <h2>Оставить сообщение</h2>
+
+            <form method="POST" action="/add">
+                <input type="text" name="name" placeholder="Ваше имя" required>
+                <textarea name="message" placeholder="Ваше сообщение" rows="4" required></textarea>
+                <button type="submit">Отправить</button>
             </form>
-          </div>
         </div>
-      {% endfor %}
     </div>
-  {% else %}
-    <p>Пока нет записей (или ничего не найдено). Создайте первую!</p>
-  {% endif %}
-{% endblock %}g
+</body>
+</html>

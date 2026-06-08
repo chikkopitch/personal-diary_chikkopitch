@@ -1,53 +1,63 @@
-ul { list-style: none; padding: 0; }
-/* Основные стили страницы */
 body {
-	font-family: Arial, Helvetica, sans-serif;
-	background: #f5f7fa;
-	color: #222;
-	margin: 0;
-	padding: 0;
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
 }
+
 .container {
-	max-width: 900px;
-	margin: 24px auto;
-	padding: 20px;
-	background: #ffffff;
-	box-shadow: 0 2px 6px rgba(0,0,0,0.05);
-	border-radius: 6px;
+    max-width: 600px;
+    margin: 0 auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-header h1 { margin: 0 0 8px 0; }
-.main-nav { display:flex; align-items:center; gap:12px; flex-wrap:wrap; }
-.main-nav a { text-decoration:none; color:#0366d6; padding:4px 6px; }
-.search-form { margin-left: auto; display:flex; gap:6px; }
-.search-form input { padding:6px; }
-.search-form button { padding:6px 8px; }
-
-.entries-list { display:flex; flex-direction:column; gap:12px; }
-.card { border:1px solid #e1e4e8; padding:12px; border-radius:8px; background:#fff; }
-.card h3 { margin:0 0 6px 0; }
-.meta { color:#6b7280; font-size:0.9em; margin-bottom:8px; }
-.actions { margin-top:10px; }
-
-/* Кнопки и формы */
-.btn { display:inline-block; text-decoration:none; background:#0366d6; color:#fff; padding:6px 10px; border-radius:4px; border:none; cursor:pointer; font-size:0.95em; }
-.btn.danger { background:#d73a49; }
-.btn + .btn { margin-left:8px; }
-
-.entry-form input[type="text"], .entry-form textarea, .search-form input {
-	width:100%;
-	padding:8px;
-	box-sizing:border-box;
-	border:1px solid #d1d5db;
-	border-radius:4px;
+h1 {
+    text-align: center;
+    color: #333;
 }
-.entry-form textarea { min-height:160px; }
 
-form { margin:0; }
+.message {
+    border-bottom: 1px solid #ddd;
+    padding: 10px 0;
+}
 
-footer { margin-top:18px; color:#6b7280; font-size:0.9em; }
+.message strong {
+    color: #007bff;
+}
 
-@media (max-width:600px) {
-	.main-nav { flex-direction:column; align-items:flex-start; }
-	.search-form { width:100%; }
+.message small {
+    color: gray;
+    font-size: 0.8em;
+}
+
+.add-form {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 2px solid #eee;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0 15px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+button {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
 }
